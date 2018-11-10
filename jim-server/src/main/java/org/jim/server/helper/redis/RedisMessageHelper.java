@@ -242,4 +242,9 @@ public class RedisMessageHelper implements IMesssageHelper,Const {
 		}
 		return userMessage;
 	}
+
+	@Override
+	public void updateMessageStatus(List<Integer> ids) {
+		// TODO Auto-generated method stub
+	}
 }

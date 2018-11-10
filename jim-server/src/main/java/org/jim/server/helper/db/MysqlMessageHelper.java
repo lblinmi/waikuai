@@ -1,5 +1,7 @@
 package org.jim.server.helper.db;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import org.jim.common.packets.ChatBody;
 import org.jim.common.packets.UserMessageData;
 import org.jim.server.dao.IMMessageDao;
 import org.jim.server.dao.UserDao;
+import org.jim.server.util.ConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +97,6 @@ public class MysqlMessageHelper implements IMesssageHelper {
 		return userMessage;
 	}
 
-	
 	/**
 	 * 放入用户好友消息;
 	 * 
@@ -121,7 +123,7 @@ public class MysqlMessageHelper implements IMesssageHelper {
 	@Override
 	public UserMessageData getGroupOfflineMessage(String userid, String groupid) {
 		System.out.println("getGroupOfflineMessage 来取与指定群组的离线消息了 => userid = " + userid + ", groupid = " + groupid);
-		
+
 		return IMMessageDao.getInstance().getGroupOfflineMessage(userid, groupid);
 	}
 
@@ -141,6 +143,25 @@ public class MysqlMessageHelper implements IMesssageHelper {
 				+ ", beginTime = " + beginTime + ", endTime = " + endTime + ", offset = " + offset + ", count = "
 				+ count);
 		return null;
+	}
+
+	@Override
+	public void updateMessageStatus(List<Integer> ids) {
+		Connection conn = null;
+		try {
+			conn = ConnectionFactory.getInstance().makeConnection();
+			IMMessageDao.getInstance().updateArriveStatus(conn, ids);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(conn!=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

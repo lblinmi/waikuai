@@ -40,16 +40,16 @@ public abstract class AbstractChatProcessor implements ChatProcessorIntf, Const 
 			if (ChatType.CHAT_TYPE_PUBLIC.getNumber() == chatBody.getChatType()) {// 存储群聊消息;
 				pushGroupMessages(PUSH, STORE, chatBody);
 			} else {
-				String from = chatBody.getFrom();
-				String to = chatBody.getTo();
-				String sessionId = ChatKit.sessionId(from, to);
-				//writeMessage(STORE, USER + ":" + sessionId, chatBody);
-				boolean isOnline = ChatKit.isOnline(to);
-				if (!isOnline) {
-					writeMessage(PUSH, USER + ":" + to + ":" + from, chatBody);
-				} else {
-					writeMessage(STORE, USER + ":" + sessionId, chatBody);
-				}
+//				String from = chatBody.getFrom();
+//				String to = chatBody.getTo();
+//				String sessionId = ChatKit.sessionId(from, to);
+//				//writeMessage(STORE, USER + ":" + sessionId, chatBody);
+//				boolean isOnline = ChatKit.isOnline(to);
+//				if (!isOnline) {
+//					writeMessage(PUSH, USER + ":" + to + ":" + from, chatBody);
+//				} else {
+//					writeMessage(STORE, USER + ":" + sessionId, chatBody);
+//				}
 			}
 		}
 		doHandler(chatBody, channelContext);

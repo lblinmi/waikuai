@@ -83,4 +83,10 @@ public interface IMesssageHelper {
 	 * @return
 	 */
 	public UserMessageData getGroupHistoryMessage(String userid, String groupid,Double beginTime,Double endTime,Integer offset,Integer count);
+
+	/**
+	 * 更新消息抵达情况
+	 * @return
+	 */
+	public void updateMessageStatus(List<Integer> ids);
 }

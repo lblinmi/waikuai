@@ -1,5 +1,6 @@
-package org.jim.server.demo.notice.needapi;
+package org.jim.server.notice.needapi;
 
+import org.jim.common.packets.ChatBody;
 import org.tio.core.ChannelContext;
 
 /**
@@ -16,5 +17,10 @@ public interface NeedServiceApi {
      * @param msg
      * @param status 是否正常消息（可根据此值组装成不同的消息结构）
      */
-    public void sendMsg(ChannelContext channel,String msg, boolean status);
+    public void sendMsg(ChannelContext channel,ChatBody chatBody, boolean status);
+    
+    /**
+     * 更新消息状态
+     */
+    public void updateMsgStatus(String msgId) ;
 }

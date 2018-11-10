@@ -12,9 +12,11 @@ import org.jim.common.packets.ChatType;
 import org.jim.common.packets.Command;
 import org.jim.common.packets.RespBody;
 import org.jim.common.packets.User;
+import org.jim.common.session.id.impl.UUIDSessionIdGenerator;
 import org.jim.common.utils.ChatKit;
 import org.jim.server.command.AbCmdHandler;
 import org.jim.server.command.handler.processor.chat.MsgQueueRunnable;
+import org.jim.server.notice.NoticeServiceFactory;
 /**
  * 版本: [1.0]
  * 功能说明: 
@@ -40,15 +42,17 @@ public class ChatReqHandler extends AbCmdHandler {
 		ImPacket chatPacket = new ImPacket(Command.COMMAND_CHAT_REQ,new RespBody(Command.COMMAND_CHAT_REQ,chatBody).toByte());
 		chatPacket.setSynSeq(packet.getSynSeq());//设置同步序列号;
 		if(ChatType.CHAT_TYPE_PRIVATE.getNumber() == chatBody.getChatType()){//私聊
-			String toId = chatBody.getTo();
-			if(ChatKit.isOnline(toId)){
-				ImAio.sendToUser(toId, chatPacket);
-				System.out.println("聊天用户在线响应包");
-				return ChatKit.sendSuccessRespPacket(channelContext);//发送成功响应包
-			}else{
-				System.out.println("聊天用户不在线响应包");
-				return ChatKit.offlineRespPacket(channelContext);//用户不在线响应包
-			}
+//			String toId = chatBody.getTo();
+//			if(ChatKit.isOnline(toId)){
+//				ImAio.sendToUser(toId, chatPacket);
+//				System.out.println("聊天用户在线响应包");
+//				return ChatKit.sendSuccessRespPacket(channelContext);//发送成功响应包
+//			}else{
+//				System.out.println("聊天用户不在线响应包");
+//				return ChatKit.offlineRespPacket(channelContext);//用户不在线响应包
+//			}
+			chatBody.setId(UUIDSessionIdGenerator.instance.sessionId(null));
+			NoticeServiceFactory.getInstance().afterRecieveMsg(channelContext, chatBody);
 		}else if(ChatType.CHAT_TYPE_PUBLIC.getNumber() == chatBody.getChatType()){//群聊
 			String group_id = chatBody.getGroup_id();
 			ImAio.sendToGroup(group_id, chatPacket);
