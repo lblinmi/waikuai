@@ -120,7 +120,12 @@ function COMMAND_GET_USER_RESP(data){
 }
 //接收到聊天响应处理;
 function COMMAND_CHAT_RESP(data){
+	
     var chatObj = data.data;
+    
+    var response = '{"cmd":"12","id":"'+chatObj.id+'"}';
+	socket.send(response);
+    
    	var createTime = new Date(chatObj.createTime).Format("yyyy/MM/dd HH:mm:ss");
 	var from = chatObj.from;
 	if(from == username)

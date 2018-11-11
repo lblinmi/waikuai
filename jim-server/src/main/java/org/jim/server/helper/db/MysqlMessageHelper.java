@@ -146,11 +146,11 @@ public class MysqlMessageHelper implements IMesssageHelper {
 	}
 
 	@Override
-	public void updateMessageStatus(List<Integer> ids) {
+	public void updateMessageStatus(String uuId) {
 		Connection conn = null;
 		try {
 			conn = ConnectionFactory.getInstance().makeConnection();
-			IMMessageDao.getInstance().updateArriveStatus(conn, ids);
+			IMMessageDao.getInstance().updateArriveStatus(conn, uuId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

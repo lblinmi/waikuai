@@ -59,6 +59,7 @@ public class NoticeCenterToClient implements Const{
 			DelayNotice notice = new DelayNotice(System.currentTimeMillis() + timeout, chatBody, context);
 			queue.add(notice);
 			// 当前消息接收方的状态为未知
+			System.out.println("添加一个延迟通知任务"+chatBody.getId());
 			userContext.put(chatBody.getId(), UserOnlineStatus.NONE);
 		}
 	}
@@ -70,6 +71,7 @@ public class NoticeCenterToClient implements Const{
 	 * @param msgId
 	 */
 	public void dealWithUserOnlineStatus(ChannelContext context,ChatBody chatBody) {
+		System.out.println("根据用户在线状态做不同消息的回复"+chatBody.getId());
 		UserOnlineStatus online = userContext.remove(chatBody.getId());
 		// 超时消息
 		if (online == null) {
@@ -175,9 +177,10 @@ public class NoticeCenterToClient implements Const{
 					// 移除超时未回应的消息接收方
 					UserOnlineStatus online = userContext.remove(dd.getChatBody().getId());
 					if (online == null) {// 已经由消息接收者发送消息了
-						// do nothing
+						service.saveMessage(dd.getChatBody(), true);
 					} else {// 由于上一条消息没有准时送达,回复消息发送者
 						service.sendMsg(dd.getContext(), dd.getChatBody(), false);
+						service.saveMessage(dd.getChatBody(), false);
 					}
 					log.info("销毁超时未处理的消息" + dd.getChatBody().getId());
 

@@ -88,5 +88,5 @@ public interface IMesssageHelper {
 	 * 更新消息抵达情况
 	 * @return
 	 */
-	public void updateMessageStatus(List<Integer> ids);
+	public void updateMessageStatus(String uuId);
 }

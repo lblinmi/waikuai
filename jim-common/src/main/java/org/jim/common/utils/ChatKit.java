@@ -74,7 +74,8 @@ public class ChatKit {
 			if(chatReqBody != null){
 				if(chatReqBody.getCreateTime() == null || "".equals(chatReqBody.getCreateTime()))
 					chatReqBody.setCreateTime(System.currentTimeMillis());
-				chatReqBody.setId(UUIDSessionIdGenerator.instance.sessionId(null));
+				if(chatReqBody.getId()==null||"".equals(chatReqBody.getId()))
+					chatReqBody.setId(UUIDSessionIdGenerator.instance.sessionId(null));
 				return chatReqBody;
 			}
 		}catch(Exception e){

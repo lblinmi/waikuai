@@ -1,8 +1,5 @@
 package org.jim.server.notice.needapi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jim.common.Const;
 import org.jim.common.ImAio;
 import org.jim.common.ImConfig;
@@ -23,11 +20,9 @@ public class NeedServiceApiImpl implements NeedServiceApi,Const{
 	    	if(status) {
 	    		System.out.println("聊天用户在线响应包");
 	    		ip = ChatKit.sendSuccessRespPacket(channel);
-	    		wirteMessage(chatBody,true);
 	    	}else {
 	    		System.out.println("聊天用户不在线响应包");
 	    		ip = ChatKit.offlineRespPacket(channel);
-	    		wirteMessage(chatBody,false);
 	    	}
 	    	ImAio.send(channel, ip);
 	    }catch (Exception e) {
@@ -51,9 +46,13 @@ public class NeedServiceApiImpl implements NeedServiceApi,Const{
 
 	@Override
 	public void updateMsgStatus(String msgId) {
-		List<Integer> ids = new ArrayList<Integer>(1);
-		ids.add(Integer.parseInt(msgId));
-		messsageHelper.updateMessageStatus(ids);
+		messsageHelper.updateMessageStatus(msgId);
+	}
+
+
+	@Override
+	public void saveMessage(ChatBody chatBody, boolean isOnline) {
+		wirteMessage(chatBody,isOnline);
 	}
 
 }

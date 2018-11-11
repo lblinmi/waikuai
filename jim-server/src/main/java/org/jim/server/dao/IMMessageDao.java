@@ -38,11 +38,12 @@ public class IMMessageDao {
 		long now = System.currentTimeMillis();
 
 		try {
-			sql = "insert into im_message (chattype, msgtype, content, from_uid, group_id, to_uid, sendtime, is_arrive, arrive_time) "
-					+ "values  (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "insert into im_message (uuId, chattype, msgtype, content, from_uid, group_id, to_uid, sendtime, is_arrive, arrive_time) "
+					+ "values  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			conn = ConnectionFactory.getInstance().makeConnection();
 			pstmt = conn.prepareStatement(sql);
 			int i = 1;
+			pstmt.setString(i++, chatBody.getId());
 			pstmt.setInt(i++, chatBody.getChatType());
 			pstmt.setInt(i++, chatBody.getMsgType());
 			pstmt.setString(i++, chatBody.getContent());
@@ -437,6 +438,36 @@ public class IMMessageDao {
 			}
 		}
 		return null;
+	}
+
+	public void updateArriveStatus(Connection conn, String uuId) {
+		long now = System.currentTimeMillis();
+
+		if (null == uuId || "".equals(uuId))
+			return;
+
+		PreparedStatement pstmt = null;
+
+		try {
+			String sql = "update im_message set is_arrive = ?, arrive_time = ? where uuId = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, 1);
+			pstmt.setTimestamp(2, new Timestamp(now));
+			pstmt.setString(3, uuId);
+			pstmt.addBatch();
+
+			pstmt.executeBatch();
+		} catch (Exception e) {
+			log.error("updateArriveStatus error: " + e.toString());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (Exception e2) {
+				log.error(e2.toString());
+			}
+		}
 	}
 
 }

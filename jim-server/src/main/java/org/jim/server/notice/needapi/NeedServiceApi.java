@@ -23,4 +23,6 @@ public interface NeedServiceApi {
      * 更新消息状态
      */
     public void updateMsgStatus(String msgId) ;
+    
+    public void saveMessage(ChatBody chatBody,boolean isOnline);
 }

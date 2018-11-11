@@ -42,7 +42,7 @@ public class ChatReqHandler extends AbCmdHandler {
 		ImPacket chatPacket = new ImPacket(Command.COMMAND_CHAT_REQ,new RespBody(Command.COMMAND_CHAT_REQ,chatBody).toByte());
 		chatPacket.setSynSeq(packet.getSynSeq());//设置同步序列号;
 		if(ChatType.CHAT_TYPE_PRIVATE.getNumber() == chatBody.getChatType()){//私聊
-//			String toId = chatBody.getTo();
+			String toId = chatBody.getTo();
 //			if(ChatKit.isOnline(toId)){
 //				ImAio.sendToUser(toId, chatPacket);
 //				System.out.println("聊天用户在线响应包");
@@ -52,6 +52,8 @@ public class ChatReqHandler extends AbCmdHandler {
 //				return ChatKit.offlineRespPacket(channelContext);//用户不在线响应包
 //			}
 			chatBody.setId(UUIDSessionIdGenerator.instance.sessionId(null));
+			chatPacket.setBody(new RespBody(Command.COMMAND_CHAT_REQ,chatBody).toByte());
+			ImAio.sendToUser(toId, chatPacket);
 			NoticeServiceFactory.getInstance().afterRecieveMsg(channelContext, chatBody);
 		}else if(ChatType.CHAT_TYPE_PUBLIC.getNumber() == chatBody.getChatType()){//群聊
 			String group_id = chatBody.getGroup_id();

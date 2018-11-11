@@ -244,7 +244,8 @@ public class RedisMessageHelper implements IMesssageHelper,Const {
 	}
 
 	@Override
-	public void updateMessageStatus(List<Integer> ids) {
+	public void updateMessageStatus(String uuId) {
 		// TODO Auto-generated method stub
+		
 	}
 }
