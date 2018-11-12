@@ -18,6 +18,8 @@ public class ChatBody extends Message {
 	private String content;//消息内容;
 	private String group_id;//消息发到哪个群组;
 	
+	private String tid;//to id
+	
 	public String getFrom() {
 		return from;
 	}
@@ -61,6 +63,9 @@ public class ChatBody extends Message {
 	public ChatBody setChatType(Integer chatType) {
 		this.chatType = chatType;
 		return this;
+	}
+	public void setTid(String tid) {
+	    this.setId(tid);
 	}
 	
 }
