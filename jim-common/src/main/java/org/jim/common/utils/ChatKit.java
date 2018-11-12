@@ -188,4 +188,24 @@ public class ChatKit {
     	 }
     	 return Md5.getMD5(sessionId);
      }
+     
+    public static ImPacket sendSuccessRespPacketNew(ChannelContext channel, String id) {
+	   ChatBody cb = new ChatBody();
+	   cb.setId(id);
+	   RespBody chatDataInCorrectRespPacket = new RespBody(Command.COMMAND_CHAT_RESP,ImStatus.C10000);
+	   chatDataInCorrectRespPacket.setData(cb);
+	   ImPacket respPacket = ImKit.ConvertRespPacket(chatDataInCorrectRespPacket, channel);
+	   respPacket.setStatus(ImStatus.C10000);
+	   return respPacket;
+    }
+    public static ImPacket offlineRespPacketNew(ChannelContext channel, String id) {
+	   log.info("用户不在线发送包。。。。");
+	   ChatBody cb = new ChatBody();
+	   cb.setId(id);
+    	   RespBody chatDataInCorrectRespPacket = new RespBody(Command.COMMAND_CHAT_RESP,ImStatus.C10001);
+    	   chatDataInCorrectRespPacket.setData(cb);
+  	   ImPacket respPacket = ImKit.ConvertRespPacket(chatDataInCorrectRespPacket, channel);
+  	   respPacket.setStatus(ImStatus.C10001);
+  	   return respPacket;
+    }
 }

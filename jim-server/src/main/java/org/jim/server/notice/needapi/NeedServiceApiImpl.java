@@ -19,10 +19,10 @@ public class NeedServiceApiImpl implements NeedServiceApi,Const{
 	    	ImPacket ip = null;
 	    	if(status) {
 	    		System.out.println("聊天用户在线响应包");
-	    		ip = ChatKit.sendSuccessRespPacket(channel);
+	    		ip = ChatKit.sendSuccessRespPacketNew(channel,chatBody.getId());
 	    	}else {
 	    		System.out.println("聊天用户不在线响应包");
-	    		ip = ChatKit.offlineRespPacket(channel);
+	    		ip = ChatKit.offlineRespPacketNew(channel,chatBody.getId());
 	    	}
 	    	ImAio.send(channel, ip);
 	    }catch (Exception e) {
