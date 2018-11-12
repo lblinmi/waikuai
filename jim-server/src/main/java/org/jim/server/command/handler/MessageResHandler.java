@@ -27,7 +27,7 @@ public class MessageResHandler extends AbCmdHandler{
 		}
 		ChatBody chatBody = ChatKit.toChatBody(packet.getBody(), channelContext);
 		NoticeServiceFactory.getInstance()
-		.beforeSendMsg(channelContext, chatBody);
+		.beforeSendMsg(chatBody);
 		return null;
 	}
 

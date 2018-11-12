@@ -18,8 +18,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void beforeSendMsg(ChannelContext context, ChatBody chatBody) {
-	noticeClient.dealWithUserOnlineStatus(context, chatBody);
+    public void beforeSendMsg(ChatBody chatBody) {
+	noticeClient.dealWithUserOnlineStatus(chatBody);
     }
 
 }

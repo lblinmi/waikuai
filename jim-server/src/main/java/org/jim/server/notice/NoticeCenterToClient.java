@@ -48,6 +48,8 @@ public class NoticeCenterToClient implements Const{
 	 * 延迟队列
 	 */
 	private DelayQueue<DelayNotice> queue = new DelayQueue<DelayNotice>();
+	
+	private Map<String,DelayNotice> noticeMap = new ConcurrentHashMap<String,DelayNotice>();
 
 	/**
 	 * 给 msgId 添加一个延迟通知任务
@@ -58,6 +60,7 @@ public class NoticeCenterToClient implements Const{
 		if (userContext.get(chatBody.getId()) == null) {
 			DelayNotice notice = new DelayNotice(System.currentTimeMillis() + timeout, chatBody, context);
 			queue.add(notice);
+			noticeMap.put(chatBody.getId(), notice);
 			// 当前消息接收方的状态为未知
 			System.out.println("添加一个延迟通知任务"+chatBody.getId());
 			userContext.put(chatBody.getId(), UserOnlineStatus.NONE);
@@ -67,11 +70,15 @@ public class NoticeCenterToClient implements Const{
 	/**
 	 * 根据用户在线状态做不同消息的回复
 	 * 
-	 * @param context
 	 * @param msgId
 	 */
-	public void dealWithUserOnlineStatus(ChannelContext context,ChatBody chatBody) {
+	public void dealWithUserOnlineStatus(ChatBody chatBody) {
 		System.out.println("根据用户在线状态做不同消息的回复"+chatBody.getId());
+		DelayNotice dn = noticeMap.remove(chatBody.getId());
+		ChannelContext context = null;
+		if(dn!=null) {
+		    context = dn.getContext();
+		}
 		UserOnlineStatus online = userContext.remove(chatBody.getId());
 		// 超时消息
 		if (online == null) {

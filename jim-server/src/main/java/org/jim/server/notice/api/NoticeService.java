@@ -18,5 +18,5 @@ public interface NoticeService {
     /**
      *  此方法替代消息接收方的回馈消息
      */
-    public void beforeSendMsg(ChannelContext context,ChatBody chatBody);
+    public void beforeSendMsg(ChatBody chatBody);
 }
