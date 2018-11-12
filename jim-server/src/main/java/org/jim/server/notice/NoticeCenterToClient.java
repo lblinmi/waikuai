@@ -78,6 +78,7 @@ public class NoticeCenterToClient implements Const{
 		ChannelContext context = null;
 		if(dn!=null) {
 		    context = dn.getContext();
+		    chatBody = dn.getChatBody();
 		}
 		UserOnlineStatus online = userContext.remove(chatBody.getId());
 		// 超时消息
@@ -183,6 +184,7 @@ public class NoticeCenterToClient implements Const{
 					DelayNotice dd = queue.take();
 					// 移除超时未回应的消息接收方
 					UserOnlineStatus online = userContext.remove(dd.getChatBody().getId());
+					noticeMap.remove(dd.getChatBody().getId());
 					if (online == null) {// 已经由消息接收者发送消息了
 						service.saveMessage(dd.getChatBody(), true);
 					} else {// 由于上一条消息没有准时送达,回复消息发送者

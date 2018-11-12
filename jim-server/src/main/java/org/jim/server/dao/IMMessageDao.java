@@ -99,6 +99,7 @@ public class IMMessageDao {
 					results = new ArrayList<ChatBody>();
 
 				ChatBody chatBody = new ChatBody();
+				chatBody.setId(rs.getString("uuId"));
 				chatBody.setFrom(rs.getString("from_uid"));
 				chatBody.setTo(rs.getString("to_uid"));
 				chatBody.setMsgType(rs.getInt("msgtype"));
@@ -150,6 +151,7 @@ public class IMMessageDao {
 					results = new ArrayList<ChatBody>();
 
 				ChatBody chatBody = new ChatBody();
+				chatBody.setId(rs.getString("uuId"));
 				chatBody.setFrom(rs.getString("from_uid"));
 				chatBody.setTo(rs.getString("to_uid"));
 				chatBody.setMsgType(rs.getInt("msgtype"));
