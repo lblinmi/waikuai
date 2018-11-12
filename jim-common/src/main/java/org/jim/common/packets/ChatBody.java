@@ -20,6 +20,8 @@ public class ChatBody extends Message {
 	
 	private String tid;//to id
 	
+	private String orderId;//客户端消息顺序ID
+	
 	public String getFrom() {
 		return from;
 	}
@@ -66,6 +68,12 @@ public class ChatBody extends Message {
 	}
 	public void setTid(String tid) {
 	    this.setId(tid);
+	}
+	public String getOrderId() {
+	    return orderId;
+	}
+	public void setOrderId(String orderId) {
+	    this.orderId = orderId;
 	}
 	
 }
