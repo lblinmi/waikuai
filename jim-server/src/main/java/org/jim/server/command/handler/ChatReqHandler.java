@@ -17,6 +17,7 @@ import org.jim.common.utils.ChatKit;
 import org.jim.server.command.AbCmdHandler;
 import org.jim.server.command.handler.processor.chat.MsgQueueRunnable;
 import org.jim.server.notice.NoticeServiceFactory;
+import org.jim.server.util.limit.MessageLimitUtil;
 /**
  * 版本: [1.0]
  * 功能说明: 
@@ -42,6 +43,7 @@ public class ChatReqHandler extends AbCmdHandler {
 		ImPacket chatPacket = new ImPacket(Command.COMMAND_CHAT_REQ,new RespBody(Command.COMMAND_CHAT_REQ,chatBody).toByte());
 		chatPacket.setSynSeq(packet.getSynSeq());//设置同步序列号;
 		if(ChatType.CHAT_TYPE_PRIVATE.getNumber() == chatBody.getChatType()){//私聊
+		    if(!MessageLimitUtil.limit(channelContext, chatBody.getFrom())) {
 			String toId = chatBody.getTo();
 //			if(ChatKit.isOnline(toId)){
 //				ImAio.sendToUser(toId, chatPacket);
@@ -55,6 +57,9 @@ public class ChatReqHandler extends AbCmdHandler {
 			chatPacket.setBody(new RespBody(Command.COMMAND_CHAT_REQ,chatBody).toByte());
 			ImAio.sendToUser(toId, chatPacket);
 			NoticeServiceFactory.getInstance().afterRecieveMsg(channelContext, chatBody);
+		    }else {
+			System.out.println(chatBody.getFrom()+"已被拉入黑名单");
+		    }
 		}else if(ChatType.CHAT_TYPE_PUBLIC.getNumber() == chatBody.getChatType()){//群聊
 			String group_id = chatBody.getGroup_id();
 			ImAio.sendToGroup(group_id, chatPacket);
