@@ -60,6 +60,7 @@ public class ChatReqHandler extends AbCmdHandler {
 		    }else {
 			System.out.println(chatBody.getFrom()+"已被拉入黑名单");
 		    }
+		    return ChatKit.sendSuccessRespPacketNew(channelContext,chatBody.getId(),chatBody.getOrderId());
 		}else if(ChatType.CHAT_TYPE_PUBLIC.getNumber() == chatBody.getChatType()){//群聊
 			String group_id = chatBody.getGroup_id();
 			ImAio.sendToGroup(group_id, chatPacket);
